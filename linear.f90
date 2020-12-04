@@ -1,3 +1,7 @@
+! ---------------------------------------
+! Linear solver per matrici dense (LU)
+! Ax=b
+!
 program linear
   use precision
   implicit none
@@ -6,8 +10,15 @@ program linear
   real(dp), allocatable :: b(:), x(:)
   integer :: i, j, N, err
   integer, allocatable :: ipv(:)
+  character(64) :: arg
 
-  N = 10
+  if (command_argument_count()<1) then
+     write(*,*) 'linear N'
+     stop
+  end if
+
+  call get_command_argument(1,arg)
+  read(arg,*) N
 
   allocate(A(N,N))
   allocate(b(N))
@@ -21,13 +32,13 @@ program linear
     call random_number(b(i))
   end do
 
-  print*,b
+  !print*,b
 
   x = b
 
   call dgesv(N,1,A,N,ipv,x,N,err) 
 
-  write(*,*) x
+  !write(*,*) x
 
 end program linear
 

@@ -1,16 +1,20 @@
 
-FC = gfortran-6.2.0
+FC = gfortran
 OMP = -fopenmp
 
 FFLAGS = -O2 $(OMP) -fmax-errors=3
-TARGET = eigen 
+TARGET = linear
 
-SOURCES = eigen.f90
+SOURCES = linear.f90
 
 OBJS = $(SOURCES:.f90=.o)
 
-LAPACKDIR=../lapack/lapack-3.7.0
+LAPACKDIR = ../lapack-3.9.0
 LAPACK = -L$(LAPACKDIR) -llapack -lrefblas
+
+MKLDIR = 
+MKLLIB = -L$(MKLDIR) -lmkl_intel_ilp64 -lmkl_intel_thread -lmkl_core -liomp5
+
 LIBS = $(LAPACK)
 
 
@@ -30,4 +34,4 @@ distclean: clean
 	rm $(TARGET)
 
 
-
+linear.o: precision.o
